@@ -28,6 +28,7 @@ class EsClient(object):
         try:
             res = self.es.index(index=index, doc_type=doc_type, id=id, body=body)
             self.logger.info('action: write to elasticsearch | index: %s | id: %s | status: successful', index, id)
+            print 'indexing doc', id
             return res['created']
         except Exception, e:
             self.logger.error('action: write to elasticsearch | index: %s | id: %s | status: unsuccessful', index, id)
@@ -56,6 +57,7 @@ class EsClient(object):
         try:
             self.es.update(index=index, doc_type=doc_type, id=id, body=body)
             self.logger.info('action: update elasticsearch | index: %s | id: %s | status: successful', index, id)
+            print 'updated doc', id
             return True
         except Exception, e:
             self.logger.error('action: update elasticsearch | index: %s | id: %s | status: unsuccessful', index, id)

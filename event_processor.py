@@ -9,7 +9,7 @@ LIVE_ALERT_INDEX = 'live_alert_index'
 HISTORICAL_ALERT_INDEX = 'historical_alert_index'
 ALERT_TYPE = 'alert'
 
-es_client = EsClient(host='35.184.66.182')
+es_client = EsClient(host='146.148.51.45')
 
 
 def event_hash_string(event_obj):
@@ -30,7 +30,7 @@ def get_hash(hash_string):
     return hashlib.md5(hash_string).hexdigest()
 
 
-redis_db = redis.client.StrictRedis(host='35.184.66.182', port=6379)
+redis_db = redis.client.StrictRedis(host='146.148.51.45', port=6379)
 
 while True:
     msg = redis_db.blpop(keys='alerts')
