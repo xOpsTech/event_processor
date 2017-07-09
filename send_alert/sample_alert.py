@@ -1,15 +1,15 @@
 import hashlib
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 from es_writer import EsWriter
 from redis_client import RedisClient
 
 utc = pytz.utc
 fmt = '%Y-%m-%dT%H:%M:%S%z'
-omp_time = datetime.strftime(utc.localize(datetime.utcnow()), fmt)
+omp_time = datetime.strftime(utc.localize(datetime.utcnow() - timedelta(hours=8)), fmt)
 
 # message_writer = EsWriter(host='35.184.66.182')
-message_writer = RedisClient(host='35.184.66.182', port=6379)
+message_writer = RedisClient(host='146.148.51.45', port=6379)
 
 IP, PORT = '127.0.0.1', 19091
 LIVE_ALERT_INDEX = 'live_alert_index'
@@ -69,11 +69,11 @@ def get_event(triggerId):
         "relatedEventsIds": [""],
         "description": "",
         "workDuration": "",
-        "locationCoordinates": [41.2619, 95.8608],
+        "locationCoordinates": [51.2, -0.12],
         "dateRaised": omp_time.split('T')[0],
         "monitoredCIName": "lo3wplogtapp01",
         "raisedLocalTimestamp": omp_time,
-        "locationCode": "us-central1-f",
+        "locationCode": "europe-west2-a",
         "severity": 4,
         "count": "1",
         "stateTriggerId": "%s" % triggerId,
@@ -85,7 +85,8 @@ def get_event(triggerId):
         "products": [""],
         "timestampUpdated": omp_time,
         "raisedTimestamp": omp_time,
-        "dateHourEnded": None
+        "dateHourEnded": None,
+        "priority": "P1"
     }
 
     alert['eventId'] = get_hash(event_hash_string(alert))
@@ -96,6 +97,6 @@ def get_event(triggerId):
     return alert
 
 
-for i in range(15, 17):
+for i in range(80, 82):
     alert_json = get_event(i)
     message_writer.send_message(alert_json)
