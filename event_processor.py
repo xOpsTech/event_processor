@@ -9,8 +9,8 @@ LIVE_ALERT_INDEX = 'live_alert_index'
 HISTORICAL_ALERT_INDEX = 'historical_alert_index'
 ALERT_TYPE = 'alert'
 
-es_client = EsClient(host='104.196.60.89')
-redis_db = redis.client.StrictRedis(host='146.148.51.45', port=6379)
+es_client = EsClient(host='elastic.xops.it')
+redis_db = redis.client.StrictRedis(host='xview.xops.it', port=6379)
 
 
 def event_hash_string(event_obj):

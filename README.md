@@ -7,3 +7,10 @@ in historical_alert_index.
 ## Running application
 python event_processor.py
 
+## Docker commands 
+docker build -t eventlistener . 
+docker run -it eventlistener 
+
+## upload docker conainer to GCP 
+gcloud container builds submit --tag gcr.io/xops-poc/eventlistener:1.0 .
+
