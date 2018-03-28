@@ -5,8 +5,8 @@ import json
 import redis
 from esClient import EsClient
 
-LIVE_ALERT_INDEX = 'live_alert_index'
-HISTORICAL_ALERT_INDEX = 'historical_alert_index'
+LIVE_ALERT_INDEX_ORY = 'live_alert_index'
+HISTORICAL_ALERT_INDEX_ORY = 'historical_alert_index'
 ALERT_TYPE = 'alert'
 
 es_client = EsClient(host='elastic.xops.it')
@@ -39,6 +39,8 @@ while True:
 
     received_alert = json.loads(msg[1])
     event_id = get_hash(event_hash_string(received_alert))
+    LIVE_ALERT_INDEX = LIVE_ALERT_INDEX_ORY+"_"+ received_alert['orgId'] 
+    HISTORICAL_ALERT_INDEX = HISTORICAL_ALERT_INDEX_ORY + "_" + received_alert['orgId']
     stored_alert = es_client.get_alert_by_event_id(index=LIVE_ALERT_INDEX, doc_type=ALERT_TYPE, doc_id=event_id)
 
     is_reset = received_alert.get('isReset')

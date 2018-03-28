@@ -10,5 +10,6 @@ class EsWriter(object):
         self.es_client = Elasticsearch(host.split(','), timeout=20)
 
     def send_message(self, message):
-        self.es_client.index(index=LIVE_ALERT_INDEX, doc_type=ALERT_TYPE, id=message['eventId'],
+        LIVE_ALERT_INDEX_NEW = LIVE_ALERT_INDEX + "_" + message['orgId']
+        self.es_client.index(index=LIVE_ALERT_INDEX_NEW, doc_type=ALERT_TYPE, id=message['eventId'],
                              body=message)

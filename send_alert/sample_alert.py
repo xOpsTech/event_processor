@@ -39,6 +39,7 @@ def get_event(triggerId):
         "storedTimestamp": omp_time,
         "assignedToName": "",
         "domain": "IPM",
+        "orgId": "qdjj0vp",
         "extraData": {},
         "incidentNumber": "",
         "geolocLon": "",
