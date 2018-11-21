@@ -9,7 +9,7 @@ fmt = '%Y-%m-%dT%H:%M:%S%z'
 omp_time = datetime.strftime(utc.localize(datetime.utcnow() - timedelta(hours=8)), fmt)
 
 # message_writer = EsWriter(host='35.184.66.182')
-message_writer = RedisClient(host='146.148.51.45', port=6379)
+message_writer = RedisClient(host='xview.xops.it', port=6379)
 
 IP, PORT = '127.0.0.1', 19091
 LIVE_ALERT_INDEX = 'live_alert_index'
@@ -36,6 +36,7 @@ def get_hash(hash_string):
 
 def get_event(triggerId):
     alert = {
+	"@timestamp": omp_time,
         "storedTimestamp": omp_time,
         "assignedToName": "",
         "domain": "IPM",
@@ -44,12 +45,12 @@ def get_event(triggerId):
         "incidentNumber": "",
         "geolocLon": "",
         "sourceEventsCount": 1,
-        "eventType": "monza_events",
+        "eventType": "zenose_events",
         "platforms": [""],
         "relatedDatesRaised": [],
         "detailsURL": "NA",
         "locationLabel": "",
-        "message": "[Monza] PROBLEM: Used disk space is more than 85% on volume D:\\ Label:New Volume  Serial Number 12ds23",
+        "message": "[Zabbix] PROBLEM: Used disk space is more than 85% on volume D:\\ Label:New Volume  Serial Number 12ds23",
         "relatedStatesIds": [""],
         "isReset": False,
         "objectType": "alertState",
@@ -57,8 +58,8 @@ def get_event(triggerId):
         "monitoredCIID": "",
         "producer": "collector.monza.events",
         "objectId": "",
-        "title": "Test alert %s" % triggerId,
-        "trigger": "Test alert %s" % triggerId,
+        "title": "zenose alert %s" % triggerId,
+        "trigger": "PROBLEM: Used disk space is more than 85 on volume D: elasticserach node 1  %s" % triggerId,
         "comments": "Used disk space on D:\\ Label:New Volume  Serial Number 12ds23: 93.63 GB\r\nTotal disk space on D:\\ Label:New Volume  Serial Number 12ds23: 100 GB",
         "status": "new",
         "version": 1,
@@ -75,7 +76,7 @@ def get_event(triggerId):
         "monitoredCIName": "lo3wplogtapp01",
         "raisedLocalTimestamp": omp_time,
         "locationCode": "europe-west2-a",
-        "severity": 4,
+        "severity": 3,
         "count": "1",
         "stateTriggerId": "%s" % triggerId,
         "activeDuration": "",
@@ -98,6 +99,6 @@ def get_event(triggerId):
     return alert
 
 
-for i in range(80, 82):
+for i in range(65, 70):
     alert_json = get_event(i)
     message_writer.send_message(alert_json)
